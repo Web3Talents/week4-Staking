@@ -59,9 +59,10 @@ contract StakingContract {
         if(approvedAllowance<100000) revert ApproveOrAddAllowance();
         
         rewardsCoin.transferFrom(caller, address(this), _amount);
-        userStakes[caller].amountStaked = _amount;
-        userStakes[caller].stepStakedOn = ++stepID;
         _update(_amount,0);
+        userStakes[caller].amountStaked = _amount;
+        userStakes[caller].stepStakedOn = stepID;
+        
     }
     function unstake() external{
         address caller = msg.sender;
@@ -92,7 +93,7 @@ contract StakingContract {
         uint totalRewards= 0;
         uint id = stepID;
         //accumulate rewards from previous steps
-        for(uint i = details.stepStakedOn; i<id; ) {
+        for(uint i = details.stepStakedOn; i<=id; ) {
             totalRewards+= (details.amountStaked * steps[i].totalEarned) / steps[i].totalStaked;
          unchecked {
             i++;
