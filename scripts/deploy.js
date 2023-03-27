@@ -7,12 +7,8 @@
 const hre = require("hardhat");
 
 async function main() {
-  const coin = await hre.ethers.getContractFactory("rewardToken");
-  const deployToken = await coin.deploy();
-  console.log("Token deployed at: ", deployToken.address)
   const stake = await hre.ethers.getContractFactory("StakingContract");
-  const deployStaking  = await stake.deploy(deployToken.address);
-
+  const deployStaking  = await stake.deploy('0x9A2C56348B0AEaCEA2AE582E6b446c9A8174868d');
   await deployStaking.deployed()
   console.log("Staking deployed at: ", deployStaking.address)
 }
